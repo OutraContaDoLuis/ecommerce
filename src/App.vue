@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <RegisterPage />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RegisterPage from './pages/RegisterPage.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    RegisterPage
   }
 }
 </script>
@@ -23,4 +22,28 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.box {
+  display: flex;
+}
+
+.box-row {
+  flex-direction: row;
+}
+
+.card-center {
+  margin: 0 auto;
+  float: none;
+}
+
+.span-link {
+  color: var(--bs-primary);
+  transition: 0.3s;
+}
+
+.span-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 </style>
