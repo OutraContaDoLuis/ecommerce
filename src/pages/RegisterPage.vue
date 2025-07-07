@@ -4,71 +4,83 @@
         <div class="justify-content-md-center">
             <div class="card card-center" style="width: 30rem;">
                 <div class="card-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-person"></i>
+                    <div :class="this.validateName ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validateName ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validateName ? 'bi bi-person' : 'bi bi-person invalid__i'"></i>
                         </span>
-                        <input type="text" class="form-control" placeholder="Nome" aria-label="Username" aria-describedby="basic-addon1" v-model="name">
+                        <input type="text" :class="this.validateName ? 'form-control' : 'form-control invalid__input'" placeholder="Nome" aria-label="Username" aria-describedby="basic-addon1" v-model="name">
                     </div>
-                    <div class="box__p" v-if="this.messageInvalidName.toString().trim() != ''">
+                    <div class="box__p mb-3" v-if="!this.validateName">
                         <p class="password--invalid__p"> {{ this.messageInvalidName }} </p>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="CPF/CNPJ" aria-label="Username" aria-describedby="basic-addon1" v-model="cpfOrCnpj">
-                    </div>
-                    <div class="box__p" v-if="this.messageInvalidCpfOrCnpj.toString().trim() != ''">
-                        <p class="password--invalid__p"> {{ this.messageInvalidCpfOrCnpj }} </p>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-envelope"></i>
+                    <div :class="this.validateEmail ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validateEmail ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validateEmail ? 'bi bi-envelope' : 'bi bi-envelope invalid__i'"></i>
                         </span>
-                        <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" v-model="email">
+                        <input type="text" :class="this.validateEmail ? 'form-control' : 'form-control invalid__input'" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" v-model="email">
                     </div>
-                    <div class="box__p" v-if="this.email.toString().trim() != ''">
-                        <p :class="!checkEmailIsValid ? 'password--invalid__p' : 'password--valid__p'">* Insira um email valido <i class="bi bi-check-lg" v-if="checkEmailIsValid"></i><i class="bi bi-x" v-if="!checkEmailIsValid"></i></p>
+                    <div class="box__p mb-3" v-if="!this.validateEmail">
+                        <p class="password--invalid__p"> {{ this.messageInvalidEmail }} </p>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-key"></i>
+                    <div :class="this.validatePassword ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validatePassword ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validatePassword ? 'bi bi-key' : 'bi bi-key invalid__i'"></i>
                         </span>
-                        <input type="password" class="form-control" placeholder="Senha" aria-label="Username" aria-describedby="basic-addon1" v-model="password">
+                        <input type="password" :class="this.validatePassword ? 'form-control' : 'form-control invalid__input'" placeholder="Senha" aria-label="Username" aria-describedby="basic-addon1" v-model="password">
                     </div>
-                    <div class="box__p" v-if="this.password.toString().trim() != ''">
+                    <div class="box__p mb-3" v-if="!this.validatePassword">
+                        <p class="password--invalid__p"> {{ this.messageInvalidPassword }} </p>
+                    </div>
+                    <div class="box__p mb-3" v-if="this.password.toString().trim() != ''">
                         <p :class="!passwordGreatherThan ? 'password--invalid__p' : 'password--valid__p'">* Sua senha deve ser maior que 8 caracteres <i class="bi bi-check-lg" v-if="passwordGreatherThan"></i><i class="bi bi-x" v-if="!passwordGreatherThan"></i></p>
                         <p :class="!passwordHaveAUpperLetter ? 'password--invalid__p' : 'password--valid__p'">* Sua senha deve ter pelo menos uma letra maiuscula <i class="bi bi-check-lg" v-if="passwordHaveAUpperLetter"></i><i class="bi bi-x" v-if="!passwordHaveAUpperLetter"></i></p>
                         <p :class="!passwordHaveNumbers ? 'password--invalid__p' : 'password--valid__p'">* Sua senha deve ter numeros <i class="bi bi-check-lg" v-if="passwordHaveNumbers"></i><i class="bi bi-x" v-if="!passwordHaveNumbers"></i></p>
                         <p :class="!passwordHaveSpecialCharacters ? 'password--invalid__p' : 'password--valid__p'">* Sua senha deve ter caracteres especiais <i class="bi bi-check-lg" v-if="passwordHaveSpecialCharacters"></i><i class="bi bi-x" v-if="!passwordHaveSpecialCharacters"></i></p>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-key"></i>
+                    <div :class="this.validateConfirmPassword ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validateConfirmPassword ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validateConfirmPassword ? 'bi bi-key' : 'bi bi-key invalid__i'"></i>
                         </span>
-                        <input type="password" class="form-control" placeholder="Confirme sua senha" aria-label="Username" aria-describedby="basic-addon1" v-model="confirmPassword">
+                        <input type="password" :class="this.validateConfirmPassword ? 'form-control' : 'form-control invalid__input'" placeholder="Confirme sua senha" aria-label="Username" aria-describedby="basic-addon1" v-model="confirmPassword">
                     </div>
-                    <div class="box__p" v-if="this.confirmPassword.toString().trim() != ''">
+                    <div class="box__p mb-3" v-if="!this.validateConfirmPassword && this.confirmPassword.toString().trim() === ''">
+                        <p class="password--invalid__p"> {{ this.messageInvalidConfirmPassword }} </p>
+                    </div>
+                    <div class="box__p mb-3" v-if="this.confirmPassword.toString().trim() != ''">
                         <p :class="!passwordMatch ? 'password--invalid__p' : 'password--valid__p'">* As senhas sao iguais <i class="bi bi-check-lg" v-if="passwordMatch"></i><i class="bi bi-x" v-if="!passwordMatch"></i></p>
                     </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Estado</button>
+                    <div :class="this.validateCep ? 'input-group mb-3' : 'input-group mb-1'">
+                        <input type="text" :class="this.validateCep ? 'form-control' : 'form-control invalid__input'" placeholder="CEP" aria-label="Username" aria-describedby="basic-addon1" v-model="cep">
+                    </div>
+                    <div class="box__p mb-3" v-if="!this.checkingValidateCep">
+                        <p class="password--invalid__p"> {{ this.messageInvalidCep }} </p>
+                    </div>
+                    <div :class="this.validateAddress ? 'input-group mb-3' : 'input-group mb-1'">
+                        <input type="text" :class="this.validateAddress ? 'form-control' : 'form-control invalid__input'" placeholder="Endereco" aria-label="Username" aria-describedby="basic-addon1" v-model="address">
+                    </div>
+                    <div class="box__p mb-3" v-if="!this.validateAddress">
+                        <p class="password--invalid__p"> {{ this.messageInvalidAddress }} </p>
+                    </div>
+                    <div :class="(this.validateState && this.validateCity) ? 'input-group mb-3' : 'input-group mb-1'">
+                        <button :class="this.validateState ? 'btn btn-outline-secondary dropdown-toggle' : 'btn btn-outline-secondary dropdown-toggle invalid__input'" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ this.state === '' ? 'Estado' : this.state }}
+                        </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            <li v-for="(state, index) in statesList" :key="index"><a class="dropdown-item" href="#" v-on:click="this.state = state"> {{ state }} </a></li>
                         </ul>
-                        <input type="text" class="form-control" placeholder="Cidade" aria-label="Username" aria-describedby="basic-addon1" v-model="city">
+                        <input type="text" :class="this.validateCity ? 'form-control' : 'form-control invalid__input'" placeholder="Cidade" aria-label="Username" aria-describedby="basic-addon1" v-model="city">
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="CEP" aria-label="Username" aria-describedby="basic-addon1" v-model="cep">
-                        <input type="text" class="form-control" placeholder="Endereco" aria-label="Username" aria-describedby="basic-addon1" v-model="address">
+                    <div class="box__p mb-3" v-if="!this.validateState || !this.validateCity">
+                        <p class="password--invalid__p"> {{ this.messageInvalidStateCity }} </p>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-telephone"></i>
+                    <div :class="this.validatePhoneNumber ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validatePhoneNumber ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validatePhoneNumber ? 'bi bi-telephone' : 'bi bi-telephone invalid__i'"></i>
                         </span>
-                        <input type="text" class="form-control" placeholder="Numero de telefone" aria-label="Username" aria-describedby="basic-addon1" v-model="phoneNumber">
+                        <input type="text" :class="this.validatePhoneNumber ? 'form-control' : 'form-control invalid__input'" placeholder="Numero de telefone" aria-label="Username" aria-describedby="basic-addon1" v-model="phoneNumber">
+                    </div>
+                    <div class="box__p mb-3" v-if="!this.validatePhoneNumber">
+                        <p class="password--invalid__p"> {{ this.messageInvalidPhoneNumber }} </p>
                     </div>
                     <button type="button" class="btn btn-outline-success" v-on:click="validateForms">Criar Conta</button>
                 </div>
@@ -82,13 +94,14 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { registerClient } from '../requestApi.js';
 
 export default {
     name: 'RegisterPage',
     data() {
         return {
             name: '',
-            cpfOrCnpj: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -98,7 +111,6 @@ export default {
             address: '',
             phoneNumber: '',
             validateName: true,
-            validateCpfOrCnpj: true,
             validateEmail: true,
             validatePassword: true,
             validateConfirmPassword: true,
@@ -108,17 +120,24 @@ export default {
             validateAddress: true,
             validatePhoneNumber: true,
             messageInvalidName: '',
-            messageInvalidCpfOrCnpj: '',
             messageInvalidEmail: '',
             messageInvalidPassword: '',
+            messageInvalidConfirmPassword: '',
+            messageInvalidCep: '',
+            messageInvalidAddress: '',
+            messageInvalidStateCity: '',
+            messageInvalidPhoneNumber: '',
+            statesList: [
+                'MT', 'MS', 'GO'
+            ]
         }
     },
     computed: {
         passwordGreatherThan() {
-            return this.password.toString().length >= 8 ? true : false
+            return this.password.toString().length >= 8
         },
         passwordHaveAUpperLetter() {
-            return this.password.toString().toLocaleLowerCase() != this.password.toString() ? true : false
+            return this.password.toString().toLocaleLowerCase() != this.password.toString()
         },
         passwordHaveNumbers() {
 
@@ -154,7 +173,27 @@ export default {
 
         },
         passwordMatch() {
-            return this.password === this.confirmPassword ? true : false
+            return this.password === this.confirmPassword
+        }
+    },
+    watch: {
+        cep: {
+            handler(value) {
+                console.log('New value ' + value)
+                axios.get('https://viacep.com.br/ws/' + this.cep + '/json/')
+                .then((response) => {
+                    console.log(response)
+                    console.log(response.data)
+                    this.validateCep = true
+                    this.messageInvalidCep = ''
+                    this.city = response.data.localidade
+                    this.address = response.data.logradouro + ', ' + response.data.bairro
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            },
+            deep: false
         }
     },
     methods: {
@@ -172,30 +211,51 @@ export default {
                 return false
             }
         },
+        validatePhoneNumberLenght(phoneNumber) {
+
+            let validate = false
+
+            console.log('(00) 00000-0000'.trim().length)
+            console.log('00000000000'.trim().length)
+            console.log(phoneNumber.trim().length)
+
+            if (phoneNumber.trim().length == '(00)00000-0000'.trim().length) {
+                validate = true
+            } else if (phoneNumber.trim().length == '00000000000'.trim().length) {
+                validate = true
+            }
+
+            return validate
+
+        },
         validateForms() {
 
             this.validateName = this.name === '' ? false : true
-            this.validateCpfOrCnpj = this.cpfOrCnpj === '' ? false : true
             this.validateEmail = this.email === '' ? false : true
             this.validatePassword = this.password === '' ? false : true
             this.validateConfirmPassword = this.confirmPassword === '' ? false : true
-            this.validateState = this.state === '' ? false : true
-            this.validateCity = this.city === '' ? false : true
             this.validateCep = this.cep === '' ? false : true
             this.validateAddress = this.address === '' ? false : true
+            this.validateState = this.state === '' ? false : true
+            this.validateCity = this.city === '' ? false : true
             this.validatePhoneNumber = this.phoneNumber === '' ? false : true
 
             this.messageInvalidName = this.validateName ? '' : '* Insira um nome'
-            this.messageInvalidCpfOrCnpj = this.validateCpfOrCnpj ? '' : '* Insira um cpf/cnpj'
             this.messageInvalidEmail = this.validateEmail ? '' : '* Insira um email'
             this.messageInvalidPassword = this.validatePassword ? '' : '* Insira uma senha'
-
-            //||
-
-            if (this.validateCpfOrCnpj.toString().trim().length != 11 && this.validateCpfOrCnpj.toString().trim().length != 14) {
-                this.validateCpfOrCnpj = false
-                this.messageInvalidCpfOrCnpj = '* Insira um cpf/cnpj valido'
+            this.messageInvalidConfirmPassword = this.validateConfirmPassword ? '' : '* Insira uma senha'
+            this.messageInvalidCep = this.validateCep ? '' : '* Insira um CEP'
+            this.messageInvalidAddress = this.validateAddress ? '' : '* Insira um endereco'
+            
+            if (this.validateState && !this.validateCity) {
+                this.messageInvalidStateCity = '* Insira uma cidade'
+            } else if (!this.validateState && this.validateCity) {
+                this.messageInvalidStateCity = '* Selecione um estado'
+            } else {
+                this.messageInvalidStateCity = '* Selecione um estado e insira uma cidade'
             }
+
+            this.messageInvalidPhoneNumber = this.validatePhoneNumber ? '' : '* Insira um numero de telefone'
 
             let emailSplit = this.email.toString().trim().split('@')
 
@@ -225,6 +285,51 @@ export default {
                 this.messageInvalidEmail = '* Insira um email valido'
             }
 
+            if (this.cep != '') {
+                axios.get('https://viacep.com.br/ws/' + this.cep + '/json/')
+                .then((response) => {
+                    console.log(response)
+                    console.log(response.data)
+                    this.validateCep = true
+                    this.messageInvalidCep = ''
+                    this.city = response.data.localidade
+                    this.address = response.data.logradouro + ', ' + response.data.bairro
+                })
+                .catch((error) => {
+                    console.log(error)
+                    this.validateCep = false
+                    this.messageInvalidCep = '* Insira um cep valido'
+                })
+            }
+
+            if (this.phoneNumber != '' && !this.validatePhoneNumberLenght(this.phoneNumber)) {
+                this.validatePhoneNumber = false
+                this.messageInvalidPhoneNumber = '* Insira um numero de telefone valido'
+            }
+
+            if (this.validateName && this.validateEmail && this.validatePassword 
+                && this.validateConfirmPassword && this.cep && this.validateAddress
+                && this.validateState && this.validateCity && this.validatePhoneNumber
+            ) {
+                try {
+                    const client = {
+                        name: this.name,
+                        email: this.email,
+                        password: this.password,
+                        phoneDD: '66',
+                        phoneNumber: this.phoneNumber,
+                        cep: this.cep,
+                        state: this.state,
+                        city: this.city,
+                        address: this.address,
+                    }
+
+                    const response = registerClient(client)
+                    console.log(response)
+                } catch(error) {
+                    console.log(error)
+                }
+            }
         }
     }
 }
@@ -235,8 +340,6 @@ export default {
 
 .box__p {
     padding: 0 auto;
-    margin-top: 0px;
-    margin-bottom: 16px;
 }
 
 .password--invalid__p {
@@ -252,6 +355,14 @@ export default {
     text-align: start;
     margin: 0 auto;
     float: none;
+}
+
+.invalid__input {
+    border-color: rgb(255, 63, 63);
+}
+
+.invalid__i {
+    color: rgb(255, 63, 63);
 }
 
 </style>
