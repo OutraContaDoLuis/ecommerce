@@ -90,6 +90,7 @@
         <div>
             <p>Já possui uma conta? <span class="span-link">Faça seu login aqui.</span></p>
         </div>
+        <div id="register__alert" class="container d-flex justify-content-center"></div>
     </div>
 </template>
 
@@ -228,7 +229,25 @@ export default {
             return validate
 
         },
-        validateForms() {
+        showSuccessRegisterAlert() {
+            const alert = document.getElementById('register__alert')
+            alert.innerHTML = [
+                `<div class="alert alert-success alert-dismissible position-fixed bottom-0 right-0 left-0" role="alert">`,
+                `   <div>Conta criada com sucesso! <a href="#" class="alert-link">Clique aqui</a> para entrar.</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+        },
+        showErrorRegisterAlert(message) {
+            const alert = document.getElementById('register__alert')
+            alert.innerHTML = [
+                `<div class="alert alert-danger alert-dismissible position-fixed bottom-0 right-0 left-0" role="alert">`,
+                `   <div>${message} </div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+        },
+        async validateForms() {
 
             this.validateName = this.name === '' ? false : true
             this.validateEmail = this.email === '' ? false : true
@@ -324,10 +343,19 @@ export default {
                         address: this.address,
                     }
 
-                    const response = registerClient(client)
-                    console.log(response)
+                    const status = await registerClient(client)
+                    
+                    console.log('response status: ' + status)
+
+                    if (status == 201) {
+                        this.showSuccessRegisterAlert()
+                    } else {
+                        this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
+                    }
+
                 } catch(error) {
                     console.log(error)
+                    this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
                 }
             }
         }

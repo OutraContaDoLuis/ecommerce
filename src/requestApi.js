@@ -20,11 +20,13 @@ async function registerClient(client) {
             })
         })
 
+        console.log(response.status)
+
         if (!response.ok) {
             throw new Error('Erro na requisicao ' + response.status)
         }
 
-        return response.body
+        return response.status
     } catch(error) {
         console.log(error)
         throw error
