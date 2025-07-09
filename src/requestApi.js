@@ -2,7 +2,9 @@ const baseUrl = 'http://localhost:5217/api/v1/auth'
 
 async function registerClient(client) {
     try {
-        const response = await fetch(baseUrl + '/register', {
+        let responseBody = null
+
+        await fetch(baseUrl + '/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -11,22 +13,24 @@ async function registerClient(client) {
                 name: client.name.toString(),
                 email: client.email.toString(),
                 password: client.password.toString(),
-                phone_dd: client.phoneDD.toString(),
                 phone_number: client.phoneNumber.toString(),
                 cep: client.cep.toString(),
                 state: client.state.toString(),
                 city: client.city.toString(),
                 address: client.address.toString()
             })
+        }).then((response) => {
+            console.log(response)
+            responseBody = response
+        }).catch((error) => {
+            console.log(error)
+            throw new Error(error)
         })
 
-        console.log(response.status)
+        console.log('response body' + responseBody)
 
-        if (!response.ok) {
-            throw new Error('Erro na requisicao ' + response.status)
-        }
+        return responseBody
 
-        return response.status
     } catch(error) {
         console.log(error)
         throw error

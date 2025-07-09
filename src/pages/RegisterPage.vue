@@ -311,8 +311,9 @@ export default {
                     console.log(response.data)
                     this.validateCep = true
                     this.messageInvalidCep = ''
-                    this.city = response.data.localidade
                     this.address = response.data.logradouro + ', ' + response.data.bairro
+                    this.city = response.data.localidade
+                    this.state = response.data.uf
                 })
                 .catch((error) => {
                     console.log(error)
@@ -335,7 +336,6 @@ export default {
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                        phoneDD: '66',
                         phoneNumber: this.phoneNumber,
                         cep: this.cep,
                         state: this.state,
@@ -343,18 +343,27 @@ export default {
                         address: this.address,
                     }
 
-                    const status = await registerClient(client)
-                    
-                    console.log('response status: ' + status)
+                    const response = await registerClient(client)
 
-                    if (status == 201) {
-                        this.showSuccessRegisterAlert()
-                    } else {
-                        this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
+                    console.log('Response code ' + response.status)
+                    
+                    switch(response.status) {
+                        case 201: 
+                            this.showSuccessRegisterAlert()
+                            break;
+                        case 900:
+                            this.showErrorRegisterAlert('Esse email ja existe! Tente outro email.')
+                            break;
+                        case 901:
+                            this.showErrorRegisterAlert('O email recebido pelo servidor esta invalido! Tente novamente.')
+                            break;
+                        default:
+                            this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
+                            break;
                     }
 
+                    
                 } catch(error) {
-                    console.log(error)
                     this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
                 }
             }
