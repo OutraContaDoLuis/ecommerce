@@ -22,7 +22,7 @@
         </div>
         <br>
         <div>
-            <p>Ainda nao possui uma conta? <span class="span-link">Crie sua conta aqui.</span></p>
+            <p>Ainda nao possui uma conta? <span class="span-link" v-on:click="() => this.$router.replace('/register')">Crie sua conta aqui.</span></p>
         </div>
     </div>
 </template>

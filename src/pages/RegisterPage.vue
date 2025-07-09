@@ -88,7 +88,7 @@
         </div>
         <br>
         <div>
-            <p>Já possui uma conta? <span class="span-link">Faça seu login aqui.</span></p>
+            <p>Já possui uma conta? <span class="span-link" v-on:click="() => this.$router.replace('/')">Faça seu login aqui.</span></p>
         </div>
         <div id="register__alert" class="container d-flex justify-content-center"></div>
     </div>
