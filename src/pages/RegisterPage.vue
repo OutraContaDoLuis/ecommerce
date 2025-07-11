@@ -97,6 +97,7 @@
 <script>
 import axios from 'axios';
 import { registerClient } from '../requestApi.js';
+import { showAuthAlert } from '../bootstrapElements.js';
 
 export default {
     name: 'RegisterPage',
@@ -229,24 +230,6 @@ export default {
             return validate
 
         },
-        showSuccessRegisterAlert() {
-            const alert = document.getElementById('register__alert')
-            alert.innerHTML = [
-                `<div class="alert alert-success alert-dismissible position-fixed bottom-0 right-0 left-0" role="alert">`,
-                `   <div>Conta criada com sucesso! <a href="#" class="alert-link">Clique aqui</a> para entrar.</div>`,
-                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                '</div>'
-            ].join('')
-        },
-        showErrorRegisterAlert(message) {
-            const alert = document.getElementById('register__alert')
-            alert.innerHTML = [
-                `<div class="alert alert-danger alert-dismissible position-fixed bottom-0 right-0 left-0" role="alert">`,
-                `   <div>${message} </div>`,
-                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                '</div>'
-            ].join('')
-        },
         async validateForms() {
 
             this.validateName = this.name === '' ? false : true
@@ -348,23 +331,23 @@ export default {
                     console.log('Response code ' + response.status)
                     
                     switch(response.status) {
-                        case 201: 
-                            this.showSuccessRegisterAlert()
+                        case 201:
+                            showAuthAlert('register__alert', ['Conta criada com sucesso!', 'Clique aqui', 'para entrar'], 'success')
                             break;
                         case 900:
-                            this.showErrorRegisterAlert('Esse email ja existe! Tente outro email.')
+                            showAuthAlert('register__alert', ['Esse email ja existe! Tente outro email.', '', ''], 'danger')
                             break;
                         case 901:
-                            this.showErrorRegisterAlert('O email recebido pelo servidor esta invalido! Tente novamente.')
+                            showAuthAlert('register__alert', ['O email recebido pelo servidor esta invalido! Tente novamente.', '', ''], 'danger')
                             break;
                         default:
-                            this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
+                            showAuthAlert('register__alert', ['Ocorreu um erro inesperado! Tente novamente mais tarde.', '', ''], 'danger')
                             break;
                     }
 
                     
                 } catch(error) {
-                    this.showErrorRegisterAlert('Ocorreu um erro inesperado! Tente novamente mais tarde.')
+                    showAuthAlert('register__alert', ['Ocorreu um erro inesperado! Tente novamente mais tarde.', '', ''], 'danger')
                 }
             }
         }

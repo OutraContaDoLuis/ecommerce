@@ -4,17 +4,23 @@
         <div class="justify-content-md-center">
             <div class="card card-center" style="width: 30rem;">
                 <div class="card-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-envelope"></i>
+                    <div :class="this.validateEmail ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validateEmail ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validateEmail ? 'bi bi-envelope' : 'bi bi-envelope invalid__i'"></i>
                         </span>
-                        <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" v-model="email">
+                        <input type="text" :class="this.validateEmail ? 'form-control' : 'form-control invalid__input'" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" v-model="email">
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="bi bi-key"></i>
+                    <div class="box__p mb-3" v-if="!this.validateEmail">
+                        <p class="password--invalid__p"> {{ this.messageInvalidEmail }} </p>
+                    </div>
+                    <div :class="this.validatePassword ? 'input-group mb-3' : 'input-group mb-1'">
+                        <span :class="this.validatePassword ? 'input-group-text' : 'input-group-text invalid__input'" id="basic-addon1">
+                            <i :class="this.validatePassword ? 'bi bi-key' : 'bi bi-key invalid__i'"></i>
                         </span>
-                        <input type="password" class="form-control" placeholder="Senha" aria-label="Username" aria-describedby="basic-addon1" v-model="password">
+                        <input type="password" :class="this.validatePassword ? 'form-control' : 'form-control invalid__input'" placeholder="Senha" aria-label="Password" aria-describedby="basic-addon1" v-model="password">
+                    </div>
+                    <div class="box__p mb-3" v-if="!this.validatePassword">
+                        <p class="password--invalid__p"> {{ this.messageInvalidPassword }} </p>
                     </div>
                     <button type="button" class="btn btn-outline-success" v-on:click="validateForms">Entrar</button>
                 </div>
@@ -24,21 +30,62 @@
         <div>
             <p>Ainda nao possui uma conta? <span class="span-link" v-on:click="() => this.$router.replace('/register')">Crie sua conta aqui.</span></p>
         </div>
+        <div id="register__alert" class="container d-flex justify-content-center"></div>
     </div>
 </template>
 
 <script>
+import { loginClient } from '../requestApi.js';
+import { showAuthAlert } from '../bootstrapElements.js';
 
 export default {
     name: 'LoginPage',
     data() {
         return {
-
+            email: '',
+            password: '',
+            validateEmail: true,
+            validatePassword: true,
+            messageInvalidEmail: '',
+            messageInvalidPassword: '',
         }
     },
     methods: {
-        validateForms() {
+        async validateForms() {
+            this.validateEmail = this.email === '' ? false : true
+            this.validatePassword = this.password === '' ? false : true
 
+            this.messageInvalidEmail = this.validateEmail ? '' : '* Insira um email'
+            this.messageInvalidPassword = this.validatePassword ? '' : '* Insira uma senha'
+
+            if (this.validateEmail && this.validatePassword) {
+                try {
+                    const client = {
+                        email: this.email,
+                        password: this.password
+                    }
+
+                    var response = await loginClient(client)
+
+                    switch(response.status) {
+                        case 200:
+                            this.$router.replace('/home')
+                            showAuthAlert('register__alert', ['Conta criada com sucesso!', 'Clique aqui', 'para entrar'], 'success')
+                            break;
+                        case 900:
+                            showAuthAlert('register__alert', ['Esse email ja existe! Tente outro email.', '', ''], 'danger')
+                            break;
+                        case 901:
+                            showAuthAlert('register__alert', ['O email recebido pelo servidor esta invalido! Tente novamente.', '', ''], 'danger')
+                            break;
+                        default:
+                            showAuthAlert('register__alert', ['Ocorreu um erro inesperado! Tente novamente mais tarde.', '', ''], 'danger')
+                            break;
+                    }
+                } catch (error) {
+                    showAuthAlert('register__alert', ['Ocorreu um erro inesperado! Tente novamente mais tarde.', '', ''], 'danger')
+                }
+            }
         }
     }
 }
