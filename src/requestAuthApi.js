@@ -6,7 +6,7 @@ async function registerClient(client) {
     try {
         let responseBody = null
 
-        await axios.get(baseUrl + '/register', {
+        await axios.post(baseUrl + '/register', {
             name: client.name.toString(),
             email: client.email.toString(),
             password: client.password.toString(),
@@ -20,7 +20,7 @@ async function registerClient(client) {
             responseBody = response
         }).catch((error) => {
             console.log(error)
-            throw new Error(error)
+            responseBody = error
         })
 
         console.log('response body register ' + responseBody)
