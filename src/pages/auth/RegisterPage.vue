@@ -96,8 +96,8 @@
 
 <script>
 import axios from 'axios';
-import { registerClient } from '../requestAuthApi.js';
-import { showAuthAlert } from '../bootstrapElements.js';
+import { registerClient } from '../../requestAuthApi.js';
+import { showAuthAlert } from '../../bootstrapElements.js';
 
 export default {
     name: 'RegisterPage',

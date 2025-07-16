@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import { loginClient } from '../requestAuthApi.js';
-import { showAuthAlert } from '../bootstrapElements.js';
+import { loginClient } from '../../requestAuthApi.js';
+import { showAuthAlert } from '../../bootstrapElements.js';
 
 export default {
     name: 'LoginPage',
